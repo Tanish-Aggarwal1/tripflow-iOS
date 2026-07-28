@@ -11,12 +11,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = scene as? UIWindowScene else { return }
+
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = SceneDelegate.makeRootTabBarController()
+        window.makeKeyAndVisible()
+        self.window = window
+    }
+
+    /// Root UITabBarController with 4 tabs, each wrapped in its own UINavigationController
+    /// and pointing at the correct member storyboard reference.
+    private static func makeRootTabBarController() -> UITabBarController {
+        let tripsNav = navigationController(storyboardName: "TanishTrips", title: "My Trips", systemImageName: "list.bullet")
+        let mapNav = navigationController(storyboardName: "NeelMapSettings", title: "Map", systemImageName: "map")
+        let exploreNav = navigationController(storyboardName: "PrathamDetailExplore", title: "Explore", systemImageName: "safari")
+        let settingsNav = navigationController(storyboardName: "NeelMapSettings", storyboardIdentifier: "SettingsVC", title: "Settings", systemImageName: "gearshape")
+
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [tripsNav, mapNav, exploreNav, settingsNav]
+        return tabBarController
+    }
+
+    private static func navigationController(storyboardName: String, storyboardIdentifier: String? = nil, title: String, systemImageName: String) -> UINavigationController {
+        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+        let rootViewController: UIViewController
+        if let storyboardIdentifier {
+            rootViewController = storyboard.instantiateViewController(withIdentifier: storyboardIdentifier)
+        } else {
+            rootViewController = storyboard.instantiateInitialViewController()!
+        }
+
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: systemImageName), selectedImage: nil)
+        return navigationController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -49,4 +77,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-
