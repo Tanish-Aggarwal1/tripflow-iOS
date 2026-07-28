@@ -20,5 +20,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
+        <!--Tanish Trips Storyboard Reference-->
+        <scene sceneID="ref-tt-scn">
+            <objects>
+                <viewControllerPlaceholder storyboardName="TanishTrips" id="ref-tt-ph0"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="900"/>
+        </scene>
+        <!--Joann Stops Storyboard Reference-->
+        <scene sceneID="ref-js-scn">
+            <objects>
+                <viewControllerPlaceholder storyboardName="JoannStops" id="ref-js-ph0"/>
+            </objects>
+            <point key="canvasLocation" x="339" y="900"/>
+        </scene>
+        <!--Pratham Detail Explore Storyboard Reference-->
+        <scene sceneID="ref-pd-scn">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PrathamDetailExplore" id="ref-pd-ph0"/>
+            </objects>
+            <point key="canvasLocation" x="539" y="900"/>
+        </scene>
+        <!--Neel Map Settings Storyboard Reference-->
+        <scene sceneID="ref-nm-scn">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NeelMapSettings" id="ref-nm-ph0"/>
+            </objects>
+            <point key="canvasLocation" x="739" y="900"/>
+        </scene>
     </scenes>
 </document>
