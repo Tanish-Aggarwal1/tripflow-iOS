@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show selected Xcode
+        run: xcodebuild -version
+
+      - name: Build TripFlow (iOS Simulator)
+        run: |
+          xcodebuild \
+            -project TripFlow.xcodeproj \
+            -scheme TripFlow \
+            -destination 'generic/platform=iOS Simulator' \
+            build
