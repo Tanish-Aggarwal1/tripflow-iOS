@@ -8,11 +8,14 @@
 import UIKit
 import UserNotifications
 
+/// Author: Tanish Aggarwal
+/// App entry point: boots the shared database and requests notification
+/// permission up front so trip reminders (IP-14) can be scheduled later.
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
+    /// Opens (and, on first launch, seeds) the shared database, then requests
+    /// notification authorization for trip reminders.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         _ = DatabaseManager.shared
 

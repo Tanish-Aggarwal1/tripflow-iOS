@@ -1,11 +1,17 @@
 import UIKit
 
+/// Author: Tanish Aggarwal
+/// Root screen of the My Trips tab: lists every saved trip, lets the user
+/// create a new one, delete one via swipe, or tap through to its detail screen.
 class TripsListVC: UIViewController {
 
+    /// Table view listing all saved trips.
     @IBOutlet weak var tableView: UITableView!
 
+    /// Trips loaded from the database, refreshed each time the screen appears.
     private var trips: [Trip] = []
 
+    /// Sets the nav title, wires up the + button, and hooks up the table view.
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "My Trips"
@@ -14,12 +20,15 @@ class TripsListVC: UIViewController {
         tableView.delegate = self
     }
 
+    /// Reloads trips from the database every time the screen appears, so a
+    /// newly created (or deleted) trip is reflected immediately.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         trips = DatabaseManager.shared.fetchTrips()
         tableView.reloadData()
     }
 
+    /// Presents CreateTripVC modally so the user can add a new trip.
     @objc private func addTapped() {
         let storyboard = UIStoryboard(name: "TanishTrips", bundle: nil)
         let createVC = storyboard.instantiateViewController(withIdentifier: "CreateTripVC")
@@ -28,16 +37,19 @@ class TripsListVC: UIViewController {
 }
 
 extension TripsListVC: UITableViewDataSource, UITableViewDelegate {
+    /// One row per saved trip.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         trips.count
     }
 
+    /// Configures a TripCell for the trip at the given row.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TripCell", for: indexPath) as! TripCell
         cell.configure(with: trips[indexPath.row])
         return cell
     }
 
+    /// Pushes TripDetailVC (Joann's screen) for the tapped trip, passing its id.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let trip = trips[indexPath.row]
@@ -47,6 +59,7 @@ extension TripsListVC: UITableViewDataSource, UITableViewDelegate {
         navigationController?.pushViewController(detailVC, animated: true)
     }
 
+    /// Deletes the swiped trip from the database and removes its row.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         let trip = trips[indexPath.row]

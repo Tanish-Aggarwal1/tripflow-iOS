@@ -3,10 +3,16 @@ import SQLite3
 
 private let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
 
+/// Author: Tanish Aggarwal
+/// Singleton gateway to the app's SQLite database, using the raw C `sqlite3`
+/// API directly (no ORM). Owns the `trips` and `stops` tables and exposes
+/// CRUD methods used by every screen in the app.
 final class DatabaseManager {
 
+    /// Shared singleton instance; the database connection is opened once and reused.
     static let shared = DatabaseManager()
 
+    /// Underlying sqlite3 connection handle.
     private var db: OpaquePointer?
 
     private init() {
@@ -15,6 +21,7 @@ final class DatabaseManager {
 
     // MARK: - Setup
 
+    /// Copies the bundled database into Documents on first launch, then opens it.
     private func openDatabase() {
         let destinationURL = DatabaseManager.databaseURL()
 
@@ -31,11 +38,13 @@ final class DatabaseManager {
         sqlite3_exec(db, "PRAGMA foreign_keys = ON;", nil, nil, nil)
     }
 
+    /// Path to the writable copy of the database in the app's Documents directory.
     private static func databaseURL() -> URL {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return documentsDirectory.appendingPathComponent("tripflow.sqlite")
     }
 
+    /// Copies the seed `tripflow.sqlite` from the app bundle to `destinationURL`, if not already present.
     private func copyDatabaseFromBundle(to destinationURL: URL) {
         guard let bundleURL = Bundle.main.url(forResource: "tripflow", withExtension: "sqlite") else {
             print("DatabaseManager: tripflow.sqlite not found in app bundle")
@@ -49,6 +58,7 @@ final class DatabaseManager {
         }
     }
 
+    /// Human-readable text for the most recent sqlite3 error on this connection.
     private var errorMessage: String {
         guard let cString = sqlite3_errmsg(db) else { return "unknown error" }
         return String(cString: cString)
@@ -56,6 +66,7 @@ final class DatabaseManager {
 
     // MARK: - Trips
 
+    /// Inserts a new trip row and returns its generated id, or nil on failure.
     @discardableResult
     func insertTrip(name: String, days: Int, startDate: String?) -> Int64? {
         let sql = "INSERT INTO trips (name, days, start_date, created_at) VALUES (?, ?, ?, ?);"
@@ -84,6 +95,7 @@ final class DatabaseManager {
         return sqlite3_last_insert_rowid(db)
     }
 
+    /// Returns all saved trips, most recently created first.
     func fetchTrips() -> [Trip] {
         let sql = "SELECT id, name, days, start_date, created_at FROM trips ORDER BY created_at DESC;"
         var statement: OpaquePointer?
@@ -106,6 +118,7 @@ final class DatabaseManager {
         return trips
     }
 
+    /// Deletes the trip with the given id (and, via foreign key cascade, its stops).
     @discardableResult
     func deleteTrip(id: Int64) -> Bool {
         let sql = "DELETE FROM trips WHERE id = ?;"
@@ -129,6 +142,7 @@ final class DatabaseManager {
 
     // MARK: - Stops
 
+    /// Inserts a new stop under the given trip and returns its generated id, or nil on failure.
     @discardableResult
     func insertStop(tripId: Int64, name: String, category: String?, notes: String?, photoPath: String?, sortOrder: Int) -> Int64? {
         let sql = "INSERT INTO stops (trip_id, name, category, notes, photo_path, sort_order, completed) VALUES (?, ?, ?, ?, ?, ?, 0);"
@@ -155,6 +169,7 @@ final class DatabaseManager {
         return sqlite3_last_insert_rowid(db)
     }
 
+    /// Returns all stops for the given trip, ordered by their saved sort order.
     func fetchStops(tripId: Int64) -> [Stop] {
         let sql = "SELECT id, trip_id, name, category, notes, photo_path, sort_order, completed FROM stops WHERE trip_id = ? ORDER BY sort_order ASC;"
         var statement: OpaquePointer?
@@ -182,6 +197,7 @@ final class DatabaseManager {
         return stops
     }
 
+    /// Deletes the stop with the given id.
     @discardableResult
     func deleteStop(id: Int64) -> Bool {
         let sql = "DELETE FROM stops WHERE id = ?;"
@@ -203,6 +219,7 @@ final class DatabaseManager {
         return true
     }
 
+    /// Persists all mutable fields of `stop` (name, category, notes, photo, sort order, completed).
     @discardableResult
     func updateStop(_ stop: Stop) -> Bool {
         let sql = """
@@ -263,6 +280,7 @@ final class DatabaseManager {
 
     // MARK: - Helpers
 
+    /// Binds `value` as text at `index`, or binds SQL NULL if it's nil.
     private func bindOptionalText(_ statement: OpaquePointer?, index: Int32, value: String?) {
         if let value {
             sqlite3_bind_text(statement, index, value, -1, SQLITE_TRANSIENT)
