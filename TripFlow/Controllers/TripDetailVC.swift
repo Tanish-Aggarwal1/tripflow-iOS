@@ -62,6 +62,7 @@ extension TripDetailVC: UITableViewDataSource, UITableViewDelegate {
     /// Configures a StopCell for the stop at the given row.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StopCell", for: indexPath) as! StopCell
+        cell.delegate = self
         if let stop = store?.stops[indexPath.row] {
             cell.configure(with: stop)
         }
@@ -89,5 +90,28 @@ extension TripDetailVC: UITableViewDataSource, UITableViewDelegate {
     /// since it doesn't exist in this branch.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension TripDetailVC: StopCellDelegate {
+    /// Toggles the tapped stop's completed state, persists it, and gives a
+    /// scale/fade animation as feedback before refreshing the row's icon.
+    func stopCellDidTapComplete(_ cell: StopCell) {
+        guard let indexPath = tableView.indexPath(for: cell), let store else { return }
+        let updated = store.toggleComplete(at: indexPath.row)
+
+        // TODO(IP-51): call SoundManager.shared.playChime() here once Pratham
+        // ships SoundManager — blocked on IP-21, which hasn't landed yet.
+
+        UIView.animate(withDuration: 0.15, animations: {
+            cell.contentView.transform = CGAffineTransform(scaleX: 1.08, y: 1.08)
+            cell.contentView.alpha = 0.5
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.15) {
+                cell.contentView.transform = .identity
+                cell.contentView.alpha = 1.0
+            }
+            cell.configure(with: updated)
+        })
     }
 }

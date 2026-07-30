@@ -34,4 +34,23 @@ final class TripStore {
         stops.insert(stop, at: destinationIndex)
         DatabaseManager.shared.reorderStops(tripId: tripId, orderedStopIds: stops.map { $0.id })
     }
+
+    /// Flips the completed flag for the stop at `index`, persists it, and updates the in-memory copy.
+    @discardableResult
+    func toggleComplete(at index: Int) -> Stop {
+        let stop = stops[index]
+        let updated = Stop(
+            id: stop.id,
+            tripId: stop.tripId,
+            name: stop.name,
+            category: stop.category,
+            notes: stop.notes,
+            photoPath: stop.photoPath,
+            sortOrder: stop.sortOrder,
+            completed: !stop.completed
+        )
+        DatabaseManager.shared.updateStop(updated)
+        stops[index] = updated
+        return updated
+    }
 }
