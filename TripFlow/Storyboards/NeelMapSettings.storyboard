@@ -16,20 +16,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map (Neel)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="map-lbl-001">
-                                <rect key="frame" x="154.33333333333334" y="415.66666666666669" width="84.666666666666657" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <mapView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="map-mkv-001">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </mapView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="map-sa-001"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="map-lbl-001" firstAttribute="centerX" secondItem="map-vw-001" secondAttribute="centerX" id="map-con-001"/>
-                            <constraint firstItem="map-lbl-001" firstAttribute="centerY" secondItem="map-vw-001" secondAttribute="centerY" id="map-con-002"/>
+                            <constraint firstItem="map-mkv-001" firstAttribute="top" secondItem="map-sa-001" secondAttribute="top" id="map-con-001"/>
+                            <constraint firstItem="map-mkv-001" firstAttribute="leading" secondItem="map-vw-001" secondAttribute="leading" id="map-con-002"/>
+                            <constraint firstItem="map-mkv-001" firstAttribute="trailing" secondItem="map-vw-001" secondAttribute="trailing" id="map-con-003"/>
+                            <constraint firstItem="map-mkv-001" firstAttribute="bottom" secondItem="map-sa-001" secondAttribute="bottom" id="map-con-004"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="map-mkv-001" id="map-out-001"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="map-fr-001" sceneMemberID="firstResponder"/>
             </objects>
@@ -43,20 +45,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings (Neel)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="set-lbl-001">
-                                <rect key="frame" x="139.66666666666666" y="415.66666666666669" width="114" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="set-stack-001">
+                                <rect key="frame" x="20" y="166" width="353" height="200"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map Zoom" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="set-zoom-lbl-001">
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <slider opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.05" minimumValue="0.01" maximumValue="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="set-zoom-sld-001">
+                                        <rect key="frame" x="0.0" y="37" width="353" height="31"/>
+                                        <connections>
+                                            <action selector="zoomSliderChanged:" destination="SET-ne-el0" eventType="valueChanged" id="set-out-003"/>
+                                        </connections>
+                                    </slider>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance Units" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="set-units-lbl-001">
+                                        <rect key="frame" x="0.0" y="84" width="353" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="set-units-pkr-001">
+                                        <rect key="frame" x="0.0" y="121" width="353" height="79"/>
+                                    </pickerView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="set-sa-001"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="set-lbl-001" firstAttribute="centerX" secondItem="set-vw-001" secondAttribute="centerX" id="set-con-001"/>
-                            <constraint firstItem="set-lbl-001" firstAttribute="centerY" secondItem="set-vw-001" secondAttribute="centerY" id="set-con-002"/>
+                            <constraint firstItem="set-stack-001" firstAttribute="top" secondItem="set-sa-001" secondAttribute="top" constant="24" id="set-con-001"/>
+                            <constraint firstItem="set-stack-001" firstAttribute="leading" secondItem="set-sa-001" secondAttribute="leading" constant="20" id="set-con-002"/>
+                            <constraint firstItem="set-stack-001" firstAttribute="trailing" secondItem="set-sa-001" secondAttribute="trailing" constant="-20" id="set-con-003"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="zoomSlider" destination="set-zoom-sld-001" id="set-out-001"/>
+                        <outlet property="unitsPicker" destination="set-units-pkr-001" id="set-out-002"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="set-fr-001" sceneMemberID="firstResponder"/>
             </objects>
