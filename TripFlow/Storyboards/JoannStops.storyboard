@@ -16,20 +16,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip Detail &amp; Stops (Joann)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdv-lbl-001">
-                                <rect key="frame" x="20" y="415.66666666666669" width="353" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tdv-table-001">
+                                <rect key="frame" x="0.0" y="118" width="393" height="734"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StopCell" style="IBUITableViewCellStyleSubtitle" id="tdv-cell-001" customClass="StopCell" customModule="TripFlow" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="tdv-cell-cv-001">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tdv-sa-001"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="tdv-lbl-001" firstAttribute="centerX" secondItem="tdv-vw-001" secondAttribute="centerX" id="tdv-con-001"/>
-                            <constraint firstItem="tdv-lbl-001" firstAttribute="centerY" secondItem="tdv-vw-001" secondAttribute="centerY" id="tdv-con-002"/>
+                            <constraint firstItem="tdv-table-001" firstAttribute="top" secondItem="tdv-sa-001" secondAttribute="top" id="tdv-con-003"/>
+                            <constraint firstItem="tdv-table-001" firstAttribute="leading" secondItem="tdv-vw-001" secondAttribute="leading" id="tdv-con-004"/>
+                            <constraint firstItem="tdv-table-001" firstAttribute="trailing" secondItem="tdv-vw-001" secondAttribute="trailing" id="tdv-con-005"/>
+                            <constraint firstItem="tdv-table-001" firstAttribute="bottom" secondItem="tdv-sa-001" secondAttribute="bottom" id="tdv-con-006"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="tdv-table-001" id="tdv-out-001"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tdv-fr-001" sceneMemberID="firstResponder"/>
             </objects>
