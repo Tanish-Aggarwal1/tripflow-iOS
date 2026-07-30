@@ -42,14 +42,14 @@ class TripDetailVC: UIViewController {
         tableView.setEditing(editing, animated: animated)
     }
 
-    /// Presents AddStopVC for this trip, positioning the new stop at the end of the list.
+    /// Presents AddStopVC modally for this trip, positioning the new stop at the end of the list.
     @objc private func addStopTapped() {
         guard let tripId, let store else { return }
         let storyboard = UIStoryboard(name: "JoannStops", bundle: nil)
         let addVC = storyboard.instantiateViewController(withIdentifier: "AddStopVC") as! AddStopVC
         addVC.tripId = tripId
         addVC.nextSortOrder = store.stops.count
-        navigationController?.pushViewController(addVC, animated: true)
+        present(UINavigationController(rootViewController: addVC), animated: true)
     }
 }
 
