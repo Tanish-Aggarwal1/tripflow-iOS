@@ -1,37 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TDV-jo-ann">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TDV-jo-ann">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Trip Detail View Controller-->
+        <!--TripDetailVC-->
         <scene sceneID="tds-cn-vas">
             <objects>
-                <viewController storyboardIdentifier="TripDetailVC" id="TDV-jo-ann" customClass="TripDetailVC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TripDetailVC" id="TDV-jo-ann" customClass="TripDetailVC" customModule="TripFlow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tdv-vw-001">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip Detail &amp; Stops (Joann)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdv-lbl-001">
-                                <rect key="frame" x="20" y="300" width="335" height="21"/>
+                                <rect key="frame" x="20" y="415.66666666666669" width="353" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="tdv-sa-001"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="tdv-lbl-001" firstAttribute="centerX" secondItem="tdv-vw-001" secondAttribute="centerX" id="tdv-con-001"/>
                             <constraint firstItem="tdv-lbl-001" firstAttribute="centerY" secondItem="tdv-vw-001" secondAttribute="centerY" id="tdv-con-002"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="tdv-sa-001"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tdv-fr-001" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="132"/>
+            <point key="canvasLocation" x="-425" y="156"/>
+        </scene>
+        <!--AddStopVC-->
+        <scene sceneID="asv-sc-001">
+            <objects>
+                <viewController storyboardIdentifier="AddStopVC" id="asv-vc-001" customClass="AddStopVC" customModule="TripFlow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="asv-view-001">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="asv-stack-001">
+                                <rect key="frame" x="20" y="122" width="353" height="320"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Stop name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="asv-name-001">
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="asv-picker-001">
+                                        <rect key="frame" x="0.0" y="50" width="353" height="120"/>
+                                    </pickerView>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Notes (optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="asv-notes-001">
+                                        <rect key="frame" x="0.0" y="186" width="353" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="asv-photo-row-001">
+                                        <rect key="frame" x="0.0" y="236" width="353" height="84"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="asv-photo-btn-001">
+                                                <rect key="frame" x="0.0" y="0.0" width="120" height="84"/>
+                                                <state key="normal" title="Choose Photo"/>
+                                                <connections>
+                                                    <action selector="choosePhotoTapped:" destination="asv-vc-001" eventType="touchUpInside" id="asv-out-006"/>
+                                                </connections>
+                                            </button>
+                                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="asv-photo-preview-001">
+                                                <rect key="frame" x="132" y="0.0" width="84" height="84"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="84" id="asv-con-005"/>
+                                                    <constraint firstAttribute="height" constant="84" id="asv-con-006"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="asv-sa-001"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="asv-stack-001" firstAttribute="top" secondItem="asv-sa-001" secondAttribute="top" constant="24" id="asv-con-001"/>
+                            <constraint firstItem="asv-stack-001" firstAttribute="leading" secondItem="asv-sa-001" secondAttribute="leading" constant="20" id="asv-con-002"/>
+                            <constraint firstItem="asv-stack-001" firstAttribute="trailing" secondItem="asv-sa-001" secondAttribute="trailing" constant="-20" id="asv-con-003"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="categoryPicker" destination="asv-picker-001" id="asv-out-001"/>
+                        <outlet property="nameField" destination="asv-name-001" id="asv-out-002"/>
+                        <outlet property="notesField" destination="asv-notes-001" id="asv-out-003"/>
+                        <outlet property="photoPreview" destination="asv-photo-preview-001" id="asv-out-004"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="asv-fr-001" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="480"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
