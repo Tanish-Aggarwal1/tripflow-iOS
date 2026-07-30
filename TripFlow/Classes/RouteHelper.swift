@@ -36,8 +36,11 @@ final class RouteHelper: NSObject {
 
             geocoder.geocodeAddressString(stop.name) { [weak self] placemarks, _ in
                 guard let coordinate = placemarks?.first?.location?.coordinate else { return }
-                self?.geocodedCoordinates[stop.name] = coordinate
+                // CLGeocoder's completion runs on an arbitrary background queue, and multiple
+                // stops geocode concurrently, so both the cache write and the annotation add
+                // must happen on the same (main) queue to avoid racing on geocodedCoordinates.
                 DispatchQueue.main.async {
+                    self?.geocodedCoordinates[stop.name] = coordinate
                     self?.addAnnotation(coordinate: coordinate, title: stop.name, on: mapView)
                 }
             }
