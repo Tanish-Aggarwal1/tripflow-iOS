@@ -1,37 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TLV-tr-ips">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TLV-tr-ips">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Trips List View Controller-->
+        <!--Trips ListVC-->
         <scene sceneID="tls-cn-vas">
             <objects>
-                <viewController storyboardIdentifier="TripsListVC" id="TLV-tr-ips" customClass="TripsListVC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TripsListVC" id="TLV-tr-ips" customClass="TripsListVC" customModule="TripFlow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tlv-vw-001">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Trips (Tanish)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tlv-lbl-001">
-                                <rect key="frame" x="20" y="300" width="335" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tlv-table-001">
+                                <rect key="frame" x="0.0" y="118" width="393" height="666"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripCell" style="IBUITableViewCellStyleSubtitle" id="tlv-cell-001" customClass="TripCell" customModule="TripFlow" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="tlv-cell-cv-001">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="tlv-lbl-001" firstAttribute="centerX" secondItem="tlv-vw-001" secondAttribute="centerX" id="tlv-con-001"/>
-                            <constraint firstItem="tlv-lbl-001" firstAttribute="centerY" secondItem="tlv-vw-001" secondAttribute="centerY" id="tlv-con-002"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="tlv-sa-001"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="tlv-table-001" firstAttribute="top" secondItem="tlv-sa-001" secondAttribute="top" id="tlv-con-003"/>
+                            <constraint firstItem="tlv-table-001" firstAttribute="leading" secondItem="tlv-vw-001" secondAttribute="leading" id="tlv-con-004"/>
+                            <constraint firstItem="tlv-table-001" firstAttribute="trailing" secondItem="tlv-vw-001" secondAttribute="trailing" id="tlv-con-005"/>
+                            <constraint firstItem="tlv-table-001" firstAttribute="bottom" secondItem="tlv-sa-001" secondAttribute="bottom" id="tlv-con-006"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="tlv-table-001" id="tlv-out-001"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tlv-fr-001" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="132"/>
+            <point key="canvasLocation" x="-425" y="156"/>
+        </scene>
+        <!--Create TripVC-->
+        <scene sceneID="ctv-sc-001">
+            <objects>
+                <viewController storyboardIdentifier="CreateTripVC" id="ctv-vc-001" customClass="CreateTripVC" customModule="TripFlow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ctv-view-001">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-stack-001">
+                                <rect key="frame" x="20" y="142" width="353" height="198"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Trip name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-name-001">
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-days-row-001">
+                                        <rect key="frame" x="0.0" y="50" width="353" height="32"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Days:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-days-lbl-001">
+                                                <rect key="frame" x="0.0" y="0.0" width="235.33333333333334" height="32"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="30" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-stepper-001">
+                                                <rect key="frame" x="243.33333333333331" y="0.0" width="94" height="32"/>
+                                                <connections>
+                                                    <action selector="stepperChanged:" destination="ctv-vc-001" eventType="valueChanged" id="ctv-out-005"/>
+                                                </connections>
+                                            </stepper>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-days-val-001">
+                                                <rect key="frame" x="345.33333333333331" y="0.0" width="7.6666666666666856" height="32"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-date-row-001">
+                                        <rect key="frame" x="0.0" y="98" width="353" height="100"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-date-lbl-001">
+                                                <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <datePicker contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-datepicker-001">
+                                                <rect key="frame" x="88" y="0.0" width="265" height="100"/>
+                                            </datePicker>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ctv-sa-001"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ctv-stack-001" firstAttribute="top" secondItem="ctv-sa-001" secondAttribute="top" constant="24" id="ctv-con-001"/>
+                            <constraint firstItem="ctv-stack-001" firstAttribute="leading" secondItem="ctv-sa-001" secondAttribute="leading" constant="20" id="ctv-con-002"/>
+                            <constraint firstItem="ctv-stack-001" firstAttribute="trailing" secondItem="ctv-sa-001" secondAttribute="trailing" constant="-20" id="ctv-con-003"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="daysStepper" destination="ctv-stepper-001" id="ctv-out-001"/>
+                        <outlet property="daysValueLabel" destination="ctv-days-val-001" id="ctv-out-002"/>
+                        <outlet property="nameField" destination="ctv-name-001" id="ctv-out-003"/>
+                        <outlet property="startDatePicker" destination="ctv-datepicker-001" id="ctv-out-004"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ctv-fr-001" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="508" y="156"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
