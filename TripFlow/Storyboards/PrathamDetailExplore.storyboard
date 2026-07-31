@@ -14,20 +14,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Explore (Pratham)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exp-lbl-001">
-                                <rect key="frame" x="20" y="300" width="335" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="exp-table-001">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SampleTripCell" style="IBUITableViewCellStyleSubtitle" id="exp-cell-001">
+                                        <rect key="frame" x="0.0" y="50" width="375" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="exp-cell-cv-001">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="exp-lbl-001" firstAttribute="centerX" secondItem="exp-vw-001" secondAttribute="centerX" id="exp-con-001"/>
-                            <constraint firstItem="exp-lbl-001" firstAttribute="centerY" secondItem="exp-vw-001" secondAttribute="centerY" id="exp-con-002"/>
+                            <constraint firstItem="exp-table-001" firstAttribute="top" secondItem="exp-sa-001" secondAttribute="top" id="exp-con-001"/>
+                            <constraint firstItem="exp-table-001" firstAttribute="leading" secondItem="exp-vw-001" secondAttribute="leading" id="exp-con-002"/>
+                            <constraint firstItem="exp-table-001" firstAttribute="trailing" secondItem="exp-vw-001" secondAttribute="trailing" id="exp-con-003"/>
+                            <constraint firstItem="exp-table-001" firstAttribute="bottom" secondItem="exp-sa-001" secondAttribute="bottom" id="exp-con-004"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="exp-sa-001"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="exp-table-001" id="exp-out-001"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="exp-fr-001" sceneMemberID="firstResponder"/>
             </objects>
