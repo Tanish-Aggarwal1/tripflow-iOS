@@ -85,11 +85,14 @@ extension TripDetailVC: UITableViewDataSource, UITableViewDelegate {
         store?.moveStop(from: sourceIndexPath.row, to: destinationIndexPath.row)
     }
 
-    /// Deselects the tapped row. Pushing into Pratham's StopDetailVC belongs here
-    /// once IP-19 ships — this screen intentionally doesn't reference that class yet
-    /// since it doesn't exist in this branch.
+    /// Pushes StopDetailVC for the tapped stop.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard let stop = store?.stops[indexPath.row] else { return }
+        let storyboard = UIStoryboard(name: "PrathamDetailExplore", bundle: nil)
+        let detailVC = storyboard.instantiateViewController(withIdentifier: "StopDetailVC") as! StopDetailVC
+        detailVC.stop = stop
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
