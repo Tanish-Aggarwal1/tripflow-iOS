@@ -47,6 +47,25 @@ final class RouteHelper: NSObject {
         }
     }
 
+    /// Returns the coordinate for `stopName`, using the cache populated by `addAnnotations`
+    /// if available, geocoding fresh otherwise (e.g. when opening a stop without visiting the map first).
+    func coordinate(forStopName stopName: String, completion: @escaping (CLLocationCoordinate2D?) -> Void) {
+        if let cached = geocodedCoordinates[stopName] {
+            completion(cached)
+            return
+        }
+
+        geocoder.geocodeAddressString(stopName) { [weak self] placemarks, _ in
+            let coordinate = placemarks?.first?.location?.coordinate
+            DispatchQueue.main.async {
+                if let coordinate {
+                    self?.geocodedCoordinates[stopName] = coordinate
+                }
+                completion(coordinate)
+            }
+        }
+    }
+
     private func addAnnotation(coordinate: CLLocationCoordinate2D, title: String, on mapView: MKMapView) {
         let pin = MKPointAnnotation()
         pin.coordinate = coordinate

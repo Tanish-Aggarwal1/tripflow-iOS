@@ -42,14 +42,19 @@ class TripDetailVC: UIViewController {
         tableView.setEditing(editing, animated: animated)
     }
 
-    /// Presents AddStopVC modally for this trip, positioning the new stop at the end of the list.
+    /// Presents AddStopVC modally for this trip, positioning the new stop at the end of the
+    /// list. Uses .fullScreen rather than the default page-sheet style, since a page sheet
+    /// never fully removes this screen from the hierarchy — leaving it on-screen dismisses
+    /// without firing viewWillAppear, so the newly added stop wouldn't show up until switching tabs.
     @objc private func addStopTapped() {
         guard let tripId, let store else { return }
         let storyboard = UIStoryboard(name: "JoannStops", bundle: nil)
         let addVC = storyboard.instantiateViewController(withIdentifier: "AddStopVC") as! AddStopVC
         addVC.tripId = tripId
         addVC.nextSortOrder = store.stops.count
-        present(UINavigationController(rootViewController: addVC), animated: true)
+        let nav = UINavigationController(rootViewController: addVC)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
 }
 
