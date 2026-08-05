@@ -23,21 +23,31 @@ final class RouteHelper: NSObject {
         locationManager.startUpdatingLocation()
     }
 
-    /// Drops an MKPointAnnotation for each stop on `mapView`, resolving `stop.name` to a coordinate.
-    func addAnnotations(for stops: [Stop], on mapView: MKMapView) {
+    /// Drops an MKPointAnnotation for each stop on `mapView`, resolving `stop.name` to a coordinate,
+    /// then calls `completion` once every stop has resolved (found or not) so the caller can fit
+    /// the map's region only after all pins are actually on the map - searching is async per stop,
+    /// so fitting the region before they land would fit to whatever was on the map beforehand.
+    func addAnnotations(for stops: [Stop], on mapView: MKMapView, completion: (() -> Void)? = nil) {
         mapView.removeAnnotations(mapView.annotations)
 
+        let group = DispatchGroup()
         for stop in stops {
             if let coordinate = geocodedCoordinates[stop.name] {
                 addAnnotation(coordinate: coordinate, title: stop.name, on: mapView)
                 continue
             }
 
+            group.enter()
             search(for: stop.name, region: mapView.region) { [weak self] coordinate in
+                defer { group.leave() }
                 guard let coordinate else { return }
                 self?.geocodedCoordinates[stop.name] = coordinate
                 self?.addAnnotation(coordinate: coordinate, title: stop.name, on: mapView)
             }
+        }
+
+        group.notify(queue: .main) {
+            completion?()
         }
     }
 
@@ -79,12 +89,21 @@ final class RouteHelper: NSObject {
         mapView.addAnnotation(pin)
     }
 
-    /// Computes an MKCoordinateRegion bounding every annotation on `mapView` plus the user's current
-    /// location, and applies it so the map opens showing the whole trip.
+    /// Computes an MKCoordinateRegion bounding every stop annotation on `mapView`, and applies it so
+    /// the map opens showing the whole trip. Falls back to the user's current location only when
+    /// there are no stop annotations yet - folding it in alongside stop pins would blow the region
+    /// out to whatever's between the two whenever the user isn't physically near the trip, which is
+    /// the common case for a trip-planning app. Excludes MKUserLocation, which `mapView.annotations`
+    /// includes automatically whenever `showsUserLocation` is on - left in, it would count as a
+    /// "stop" too and wreck the fit the same way. Applies without animation: MapKit silently drops
+    /// (or reverts to its own default) an animated region change requested while the map view is
+    /// still mid-appearance, which is exactly when this runs after a fresh push.
     func fitRegion(on mapView: MKMapView) {
-        var coordinates = mapView.annotations.map { $0.coordinate }
-        if let currentLocation {
-            coordinates.append(currentLocation.coordinate)
+        var coordinates = mapView.annotations
+            .filter { !($0 is MKUserLocation) }
+            .map { $0.coordinate }
+        if coordinates.isEmpty, let currentLocation {
+            coordinates = [currentLocation.coordinate]
         }
         guard !coordinates.isEmpty else { return }
 
@@ -98,7 +117,7 @@ final class RouteHelper: NSObject {
             latitudeDelta: (latitudes.max()! - latitudes.min()!) * 1.4 + 0.02,
             longitudeDelta: (longitudes.max()! - longitudes.min()!) * 1.4 + 0.02
         )
-        mapView.setRegion(MKCoordinateRegion(center: center, span: span), animated: true)
+        mapView.setRegion(MKCoordinateRegion(center: center, span: span), animated: false)
     }
 
     /// Returns e.g. "3.4 km" or "2.1 mi" between two locations, respecting `SettingsStore.units`.
