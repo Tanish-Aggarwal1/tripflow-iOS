@@ -1,8 +1,8 @@
 import UIKit
 
 /// Explore tab: lists hard-coded sample trips (SampleTripProvider), lets the
-/// user search-filter them by name, and copies a tapped trip (plus its stops)
-/// into the user's own My Trips list.
+/// user search-filter them by name, and pushes SampleTripDetailVC on tap to
+/// preview a trip's stops before copying it into the user's own My Trips list.
 class ExploreVC: UIViewController {
 
     /// Table view listing the sample trips.
@@ -31,26 +31,6 @@ class ExploreVC: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
     }
-
-    /// Inserts a copy of the sample trip (and all its stops) into SQLite, then confirms with an alert.
-    private func copyToMyTrips(_ sampleTrip: SampleTrip) {
-        guard let tripId = DatabaseManager.shared.insertTrip(name: sampleTrip.name, days: sampleTrip.days, startDate: nil) else { return }
-
-        for (index, stop) in sampleTrip.stops.enumerated() {
-            DatabaseManager.shared.insertStop(
-                tripId: tripId,
-                name: stop.name,
-                category: stop.category,
-                notes: stop.notes,
-                photoPath: nil,
-                sortOrder: index
-            )
-        }
-
-        let alert = UIAlertController(title: "Copied to My Trips!", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
 }
 
 extension ExploreVC: UITableViewDataSource, UITableViewDelegate {
@@ -68,10 +48,11 @@ extension ExploreVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
-    /// Copies the tapped sample trip into My Trips.
+    /// Opens a preview of the tapped sample trip's stops, with a Copy Trip button to add it to My Trips.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        copyToMyTrips(filteredTrips[indexPath.row])
+        let detailVC = SampleTripDetailVC(sampleTrip: filteredTrips[indexPath.row])
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
