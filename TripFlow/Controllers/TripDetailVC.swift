@@ -103,8 +103,9 @@ extension TripDetailVC: StopCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell), let store else { return }
         let updated = store.toggleComplete(at: indexPath.row)
 
-        // TODO(IP-51): call SoundManager.shared.playChime() here once Pratham
-        // ships SoundManager — blocked on IP-21, which hasn't landed yet.
+        if updated.completed {
+            SoundManager.shared.playChime()
+        }
 
         UIView.animate(withDuration: 0.15, animations: {
             cell.contentView.transform = CGAffineTransform(scaleX: 1.08, y: 1.08)
