@@ -37,10 +37,17 @@ class MapVC: UIViewController {
         }
     }
 
-    /// Applies the user's saved zoom preference on top of the auto-fit region.
+    /// Applies the user's saved zoom preference as a floor on top of the auto-fit region - it only
+    /// ever widens the span, never shrinks it. Stops spread across a wide trip (e.g. Niagara Falls
+    /// to Niagara-on-the-Lake, ~19km apart) need a wider span than the preference to all stay in
+    /// frame; overriding it outright would zoom in past the fit and clip stops out of view.
     private func applyZoomPreference() {
         var region = mapView.region
-        region.span = MKCoordinateSpan(latitudeDelta: SettingsStore.shared.mapZoom, longitudeDelta: SettingsStore.shared.mapZoom)
+        let preferredSpan = SettingsStore.shared.mapZoom
+        region.span = MKCoordinateSpan(
+            latitudeDelta: max(region.span.latitudeDelta, preferredSpan),
+            longitudeDelta: max(region.span.longitudeDelta, preferredSpan)
+        )
         mapView.setRegion(region, animated: false)
     }
 }
