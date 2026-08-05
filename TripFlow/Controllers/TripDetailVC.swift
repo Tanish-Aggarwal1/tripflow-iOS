@@ -14,11 +14,14 @@ class TripDetailVC: UIViewController {
     /// In-memory store for this trip's stops, backed by DatabaseManager.
     private var store: TripStore?
 
-    /// Sets the nav title, wires up the + and Edit buttons, and hooks up the table view.
+    /// Sets the nav title, wires up the +/Map/Edit buttons, and hooks up the table view.
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Stops"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addStopTapped))
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addStopTapped)),
+            UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(showMapTapped))
+        ]
         navigationItem.leftBarButtonItem = editButtonItem
         tableView.dataSource = self
         tableView.delegate = self
@@ -55,6 +58,16 @@ class TripDetailVC: UIViewController {
         let nav = UINavigationController(rootViewController: addVC)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true)
+    }
+
+    /// Pushes MapVC scoped to this trip, so all of its stops are plotted immediately
+    /// rather than relying on the Map tab's most-recently-created-trip fallback.
+    @objc private func showMapTapped() {
+        guard let tripId else { return }
+        let storyboard = UIStoryboard(name: "NeelMapSettings", bundle: nil)
+        guard let mapVC = storyboard.instantiateInitialViewController() as? MapVC else { return }
+        mapVC.tripId = tripId
+        navigationController?.pushViewController(mapVC, animated: true)
     }
 }
 
