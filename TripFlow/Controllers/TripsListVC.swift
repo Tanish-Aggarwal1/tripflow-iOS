@@ -28,11 +28,16 @@ class TripsListVC: UIViewController {
         tableView.reloadData()
     }
 
-    /// Presents CreateTripVC modally so the user can add a new trip.
+    /// Presents CreateTripVC modally so the user can add a new trip. Uses .fullScreen
+    /// rather than the default page-sheet style, since a page sheet never fully removes
+    /// this screen from the hierarchy — leaving it on-screen dismisses without firing
+    /// viewWillAppear, so the newly created trip wouldn't show up until switching tabs.
     @objc private func addTapped() {
         let storyboard = UIStoryboard(name: "TanishTrips", bundle: nil)
         let createVC = storyboard.instantiateViewController(withIdentifier: "CreateTripVC")
-        present(UINavigationController(rootViewController: createVC), animated: true)
+        let nav = UINavigationController(rootViewController: createVC)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
 }
 
