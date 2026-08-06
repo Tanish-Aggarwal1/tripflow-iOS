@@ -52,7 +52,9 @@ extension ExploreVC: UITableViewDataSource, UITableViewDelegate {
     /// Opens a preview of the tapped sample trip's stops, with a Copy Trip button to add it to My Trips.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let detailVC = SampleTripDetailVC(sampleTrip: filteredTrips[indexPath.row])
+        let storyboard = UIStoryboard(name: "PrathamDetailExplore", bundle: nil)
+        let detailVC = storyboard.instantiateViewController(withIdentifier: "SampleTripDetailVC") as! SampleTripDetailVC
+        detailVC.sampleTrip = filteredTrips[indexPath.row]
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

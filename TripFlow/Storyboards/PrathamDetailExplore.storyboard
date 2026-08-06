@@ -107,6 +107,45 @@
             </objects>
             <point key="canvasLocation" x="871" y="141"/>
         </scene>
+        <!--Sample Trip DetailVC-->
+        <scene sceneID="stv-sc-001">
+            <objects>
+                <viewController storyboardIdentifier="SampleTripDetailVC" id="stv-vc-001" customClass="SampleTripDetailVC" customModule="TripFlow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="stv-view-001">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="stv-table-001">
+                                <rect key="frame" x="0.0" y="118" width="393" height="666"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StopCell" style="IBUITableViewCellStyleSubtitle" id="stv-cell-001" customClass="StopCell" customModule="TripFlow" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="stv-cell-cv-001">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="stv-sa-001"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="stv-table-001" firstAttribute="top" secondItem="stv-sa-001" secondAttribute="top" id="stv-con-001"/>
+                            <constraint firstItem="stv-table-001" firstAttribute="leading" secondItem="stv-view-001" secondAttribute="leading" id="stv-con-002"/>
+                            <constraint firstItem="stv-table-001" firstAttribute="trailing" secondItem="stv-view-001" secondAttribute="trailing" id="stv-con-003"/>
+                            <constraint firstItem="stv-table-001" firstAttribute="bottom" secondItem="stv-sa-001" secondAttribute="bottom" id="stv-con-004"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="stv-table-001" id="stv-out-001"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="stv-fr-001" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="871" y="500"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="secondarySystemBackgroundColor">
