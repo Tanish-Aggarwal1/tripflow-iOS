@@ -1,5 +1,6 @@
 import AVFoundation
 
+/// Author: Pratham
 /// Reusable singleton for playing the app's short completion chime (FR9's Sound requirement).
 final class SoundManager {
 

@@ -2,6 +2,7 @@ import UIKit
 import WebKit
 import CoreLocation
 
+/// Author: Pratham
 /// Stop Detail screen: shows the photo, notes, and distance from the user for
 /// a selected stop, plus a WKWebView looking up the stop's name/category.
 class StopDetailVC: UIViewController {
@@ -37,8 +38,9 @@ class StopDetailVC: UIViewController {
         updateDistanceLabel()
     }
 
-    /// Geocodes the stop's name (via RouteHelper's cache) and, if the user's location is
-    /// available, renders the distance between them; otherwise shows an unavailable state.
+    /// Author: Neel. Geocodes the stop's name (via RouteHelper's cache) and, if the user's
+    /// location is available, renders the distance between them; otherwise shows an
+    /// unavailable state. Fills the placeholder per the team's IP-19/IP-23 handoff plan.
     private func updateDistanceLabel() {
         guard let name = stop?.name else { return }
         distanceLabel.text = "Finding distance…"

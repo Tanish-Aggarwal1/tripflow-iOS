@@ -1,5 +1,6 @@
 import UIKit
 
+/// Author: Pratham
 /// Read-only preview of a sample trip's stops, reached by tapping a row on the Explore tab.
 /// Nothing here is persisted until the user taps "Copy Trip", which inserts the trip and its
 /// stops into SQLite exactly as ExploreVC's row tap used to do directly.

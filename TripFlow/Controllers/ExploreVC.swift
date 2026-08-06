@@ -1,5 +1,6 @@
 import UIKit
 
+/// Author: Pratham
 /// Explore tab: lists hard-coded sample trips (SampleTripProvider), lets the
 /// user search-filter them by name, and pushes SampleTripDetailVC on tap to
 /// preview a trip's stops before copying it into the user's own My Trips list.

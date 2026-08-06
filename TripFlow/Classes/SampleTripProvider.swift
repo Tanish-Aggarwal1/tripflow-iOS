@@ -7,6 +7,7 @@ struct SampleTrip {
     let stops: [Stop]
 }
 
+/// Author: Pratham
 /// Provides the fixed set of sample trips shown on ExploreVC. Stops use
 /// placeholder id/tripId values (0) since they aren't persisted until copied;
 /// DatabaseManager.insertStop assigns real ids at that point.
