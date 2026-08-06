@@ -49,6 +49,9 @@ class TripDetailVC: UIViewController {
     /// list. Uses .fullScreen rather than the default page-sheet style, since a page sheet
     /// never fully removes this screen from the hierarchy — leaving it on-screen dismisses
     /// without firing viewWillAppear, so the newly added stop wouldn't show up until switching tabs.
+    /// If asked "why not just call reload() after dismiss": that'd work too, but viewWillAppear
+    /// already reloaded on tab switches - this fix keeps that one reload path as the only one,
+    /// instead of adding a second, easy-to-forget reload call at every place a stop can be added.
     @objc private func addStopTapped() {
         guard let tripId, let store else { return }
         let storyboard = UIStoryboard(name: "JoannStops", bundle: nil)
@@ -62,6 +65,9 @@ class TripDetailVC: UIViewController {
 
     /// Pushes MapVC scoped to this trip, so all of its stops are plotted immediately
     /// rather than relying on the Map tab's most-recently-created-trip fallback.
+    /// If asked "why not just use the Map tab": the Map tab has no trip picker, it always shows
+    /// whichever trip was created most recently - if you're looking at an older trip's stops here,
+    /// tapping the Map tab wouldn't show this trip at all. This button always plots the right one.
     @objc private func showMapTapped() {
         guard let tripId else { return }
         let storyboard = UIStoryboard(name: "NeelMapSettings", bundle: nil)

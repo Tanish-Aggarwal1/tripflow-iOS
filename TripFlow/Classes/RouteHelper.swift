@@ -27,6 +27,10 @@ final class RouteHelper: NSObject {
     /// then calls `completion` once every stop has resolved (found or not) so the caller can fit
     /// the map's region only after all pins are actually on the map - searching is async per stop,
     /// so fitting the region before they land would fit to whatever was on the map beforehand.
+    /// If asked "why the DispatchGroup": each `search` call hits the network and returns on its own
+    /// schedule; `group.enter()`/`leave()` around each one just counts "how many are still out" so
+    /// `group.notify` can fire exactly once, after the last one lands - without it there's no single
+    /// point to know "all stops are placed now, it's safe to fit the map to them."
     func addAnnotations(for stops: [Stop], on mapView: MKMapView, completion: (() -> Void)? = nil) {
         mapView.removeAnnotations(mapView.annotations)
 
@@ -98,6 +102,16 @@ final class RouteHelper: NSObject {
     /// "stop" too and wreck the fit the same way. Applies without animation: MapKit silently drops
     /// (or reverts to its own default) an animated region change requested while the map view is
     /// still mid-appearance, which is exactly when this runs after a fresh push.
+    /// If asked "why 3 separate fixes bundled in one method": all three were found by actually
+    /// running the app and seeing the map open on the wrong place - (1) MKUserLocation is a fake
+    /// annotation MapKit adds itself for the blue dot, and averaging it into the stops' bounding
+    /// box pulled the view toward wherever the simulator's GPS was set, sometimes a different city
+    /// entirely; (2) `animated: true` here gets silently ignored by MapKit if the map view hasn't
+    /// finished appearing yet (e.g. right after a push), so the region visually never changes even
+    /// though this method runs correctly - `animated: false` sidesteps that; (3) only falling back
+    /// to current location when there are zero stops (not always including it) stops a trip whose
+    /// stops are all in one city from being needlessly zoomed out to also include wherever the
+    /// phone physically is.
     func fitRegion(on mapView: MKMapView) {
         var coordinates = mapView.annotations
             .filter { !($0 is MKUserLocation) }

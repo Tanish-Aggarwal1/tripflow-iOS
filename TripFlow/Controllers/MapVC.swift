@@ -41,6 +41,10 @@ class MapVC: UIViewController {
     /// ever widens the span, never shrinks it. Stops spread across a wide trip (e.g. Niagara Falls
     /// to Niagara-on-the-Lake, ~19km apart) need a wider span than the preference to all stay in
     /// frame; overriding it outright would zoom in past the fit and clip stops out of view.
+    /// If asked "why max() instead of just setting the preference": this used to hard-set the span
+    /// to the preference, which is fine for a tight cluster (Toronto's 3 stops fit inside the ~5km
+    /// default) but for a spread-out trip it zoomed in on the empty midpoint between stops, with
+    /// none of them actually visible - caught this by testing the Niagara and Muskoka sample trips.
     private func applyZoomPreference() {
         var region = mapView.region
         let preferredSpan = SettingsStore.shared.mapZoom
